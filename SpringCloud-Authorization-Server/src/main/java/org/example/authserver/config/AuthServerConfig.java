@@ -65,7 +65,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .userDetailsService(userService)
                 // 设置token转换器
                 .accessTokenConverter(accessTokenConverter());
-
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtTokenEnhancer, accessTokenConverter()));
         endpoints.tokenEnhancer(tokenEnhancerChain);
