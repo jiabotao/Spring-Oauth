@@ -1,0 +1,32 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: oauth2-gateway
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848 # nacos地址
+    gateway:
+      routes:
+        - id: common-client-api-route
+          uri: lb://common-api-client
+          predicates:
+            - Path=/common/**
+          filters:
+            - StripPrefix=1
+        - id: oauth-server-route
+          uri: lb://SpringCloud-Authorization-Server
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: 'http://localhost:9000/rsa/publicKey'
+
+secure:
+  ignore:
+    urls: #免校验路径
+      - "/auth/oauth/token"
